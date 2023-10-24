@@ -15,24 +15,30 @@ export class MultipleCalculator {
             const num2 = parseInt(operations[i].substring(1));
             this.validateNumber(num2);
 
-            if (operation === "+") {
-                result = result + num2;
-            }
-            if (operation === "-") {
-                result = result - num2;
-            }
-            if (operation === "*") {
-                result = result * num2;
-            }
-            if (operation === "/") {
-                if (num2 === 0) {
-                    throw new Error("invalid division by 0")
-                }
-                result = result / num2;
-            }
+            result = this.performOperation(operation, result, num2);
         }
 
         return result;
+    }
+
+    private performOperation(operation: string, accum: number, num2: number): number {
+        if (operation === "+") {
+            return accum + num2;
+        }
+        if (operation === "-") {
+            return accum - num2;
+        }
+        if (operation === "*") {
+            return accum * num2;
+        }
+        if (operation === "/") {
+            if (num2 === 0) {
+                throw new Error("invalid division by 0");
+            }
+            return accum / num2;
+        }
+
+        return accum;
     }
 
     private validateNumber(num: number) {
