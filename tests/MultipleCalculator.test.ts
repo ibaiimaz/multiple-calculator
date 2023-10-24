@@ -35,4 +35,9 @@ describe("MultipleCalculator", () => {
 
         expect(result).toEqual(3);
     });
+
+    it("should throw an error if the operation is not supported", () => {
+        const multipleCalculator = new MultipleCalculator();
+        expect(() => multipleCalculator.calculate(["12", "%4"])).toThrow("unsuported operation")
+    });
 });

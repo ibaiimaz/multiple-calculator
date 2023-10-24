@@ -4,6 +4,10 @@ export class MultipleCalculator {
         const num1 = parseInt(operations[0]);
         const num2 = parseInt(operations[1].substring(1));
         
+        if (operation !== "+" && operation !== "-" && operation !== "*" && operation !== "/") {
+            throw new Error("unsuported operation");
+        }
+
         if (operation === "-") {
             return num1 - num2;
         }
