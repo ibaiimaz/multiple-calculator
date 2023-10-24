@@ -23,6 +23,10 @@ export class MultipleCalculator {
     }
 
     private validateOperation(operation: string) {
+        if (!isNaN(parseInt(operation))) {
+            throw new Error("operation not provided");
+        }
+
         if (!SUPPORTED_OPERATIONS.includes(operation)) {
             throw new Error("unsuported operation");
         }

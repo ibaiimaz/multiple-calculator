@@ -40,4 +40,9 @@ describe("MultipleCalculator", () => {
         const multipleCalculator = new MultipleCalculator();
         expect(() => multipleCalculator.calculate(["12", "%4"])).toThrow("unsuported operation")
     });
+
+    it("should throw an error if the operation is not provided", () => {
+        const multipleCalculator = new MultipleCalculator();
+        expect(() => multipleCalculator.calculate(["12", "4"])).toThrow("operation not provided")
+    });
 });
