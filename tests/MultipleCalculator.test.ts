@@ -19,4 +19,12 @@ describe("MultipleCalculator", () => {
 
         expect(result).toEqual(7);
     });
+
+    it("should multiply the given 2 numbers", () => {
+        const multipleCalculator = new MultipleCalculator();
+
+        const result = multipleCalculator.calculate(["3", "*3"]);
+
+        expect(result).toEqual(9);
+    });
 });
