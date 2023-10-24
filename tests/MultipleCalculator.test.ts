@@ -60,4 +60,12 @@ describe("MultipleCalculator", () => {
         const multipleCalculator = new MultipleCalculator();
         expect(() => multipleCalculator.calculate(["3", "/0"])).toThrow("invalid division by 0")
     });
+
+    it("should accept multiple operations", () => {
+        const multipleCalculator = new MultipleCalculator();
+
+        const result = multipleCalculator.calculate(["10", "+2", "-3"]);
+
+        expect(result).toEqual(9);
+    });
 });
