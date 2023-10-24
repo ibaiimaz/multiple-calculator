@@ -11,4 +11,12 @@ describe("MultipleCalculator", () => {
 
         expect(result).toEqual(expected);
     });
+
+    it("should subtract the given 2 numbers", () => {
+        const multipleCalculator = new MultipleCalculator();
+
+        const result = multipleCalculator.calculate(["10", "-3"]);
+
+        expect(result).toEqual(7);
+    });
 });
