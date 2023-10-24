@@ -1,6 +1,5 @@
 export class MultipleCalculator {
-    calculate(_operations: string[]) {
-        return 6;
+    calculate(operations: string[]) {
+        return parseInt(operations[0]) + parseInt(operations[1].substring(1));
     }
-    
 }
