@@ -9,6 +9,10 @@ export class MultipleCalculator {
         const num1 = parseInt(operations[0]);
         const num2 = parseInt(operations[1].substring(1));
 
+        if (isNaN(num1) || isNaN(num2)) {
+            throw new Error("number not provided");
+        }
+
         if (operation === "-") {
             return num1 - num2;
         }

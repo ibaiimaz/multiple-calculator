@@ -45,4 +45,14 @@ describe("MultipleCalculator", () => {
         const multipleCalculator = new MultipleCalculator();
         expect(() => multipleCalculator.calculate(["12", "4"])).toThrow("operation not provided")
     });
+
+    it("should throw an error if first number not provided", () => {
+        const multipleCalculator = new MultipleCalculator();
+        expect(() => multipleCalculator.calculate(["", "+4"])).toThrow("number not provided")
+    });
+
+    it("should throw an error if second number not provided", () => {
+        const multipleCalculator = new MultipleCalculator();
+        expect(() => multipleCalculator.calculate(["3", "+"])).toThrow("number not provided")
+    });
 });
