@@ -8,10 +8,7 @@ export class MultipleCalculator {
 
         const num1 = parseInt(operations[0]);
         const num2 = parseInt(operations[1].substring(1));
-
-        if (isNaN(num1) || isNaN(num2)) {
-            throw new Error("number not provided");
-        }
+        this.validateNumbers(num1, num2);
 
         if (operation === "-") {
             return num1 - num2;
@@ -24,6 +21,12 @@ export class MultipleCalculator {
         }
 
         return num1 + num2;
+    }
+
+    private validateNumbers(num1: number, num2: number) {
+        if (isNaN(num1) || isNaN(num2)) {
+            throw new Error("number not provided");
+        }
     }
 
     private validateOperation(operation: string) {
