@@ -27,4 +27,12 @@ describe("MultipleCalculator", () => {
 
         expect(result).toEqual(9);
     });
+
+    it("should divide the given 2 numbers", () => {
+        const multipleCalculator = new MultipleCalculator();
+
+        const result = multipleCalculator.calculate(["12", "/4"]);
+
+        expect(result).toEqual(3);
+    });
 });

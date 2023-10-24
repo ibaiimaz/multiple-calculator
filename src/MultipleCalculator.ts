@@ -7,6 +7,9 @@ export class MultipleCalculator {
         if (operation === "*") {
             return parseInt(operations[0]) * parseInt(operations[1].substring(1));
         }
+        if (operation === "/") {
+            return parseInt(operations[0]) / parseInt(operations[1].substring(1));
+        }
 
         return parseInt(operations[0]) + parseInt(operations[1].substring(1));
     }
