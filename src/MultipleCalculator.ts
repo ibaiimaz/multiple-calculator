@@ -17,6 +17,9 @@ export class MultipleCalculator {
             return num1 * num2;
         }
         if (operation === "/") {
+            if (num2 === 0) {
+                throw new Error("invalid division by 0")
+            }
             return num1 / num2;
         }
 

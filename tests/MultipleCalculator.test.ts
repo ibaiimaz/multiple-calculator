@@ -55,4 +55,9 @@ describe("MultipleCalculator", () => {
         const multipleCalculator = new MultipleCalculator();
         expect(() => multipleCalculator.calculate(["3", "+"])).toThrow("number not provided")
     });
+
+    it("should throw an error if dividing by zero", () => {
+        const multipleCalculator = new MultipleCalculator();
+        expect(() => multipleCalculator.calculate(["3", "/0"])).toThrow("invalid division by 0")
+    });
 });
