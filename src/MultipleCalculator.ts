@@ -3,22 +3,20 @@ const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
 export class MultipleCalculator {
 
     calculate(operations: string[]) {
-        const num1 = parseInt(operations[0]);
+        const [initialValue, ...steps] = operations;
+
+        const num1 = parseInt(initialValue);
         this.validateNumber(num1);
 
-        let result = num1;
-
-        for (let i = 1; i < operations.length; i++) {
-            const operation = operations[i].substring(0,1);
+        return steps.reduce((acc, step) => {
+            const operation = step.substring(0,1);
             this.validateOperation(operation);
 
-            const num2 = parseInt(operations[i].substring(1));
+            const num2 = parseInt(step.substring(1));
             this.validateNumber(num2);
 
-            result = this.performOperation(operation, result, num2);
-        }
-
-        return result;
+            return this.performOperation(operation, acc, num2);
+        }, num1);
     }
 
     private performOperation(operation: string, accum: number, num2: number): number {
