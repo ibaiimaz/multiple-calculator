@@ -5,38 +5,53 @@ export class MultipleCalculator {
     calculate(operations: string[]) {
         const [initialValue, ...steps] = operations;
 
-        const num1 = parseInt(initialValue);
-        this.validateNumber(num1);
-
-        return steps.reduce((acc, step) => {
-            const operation = step.substring(0,1);
-            this.validateOperation(operation);
-
-            const num2 = parseInt(step.substring(1));
-            this.validateNumber(num2);
-
-            return this.performOperation(operation, acc, num2);
-        }, num1);
+        return steps.reduce(
+            this.performOperationFromStep,
+            this.toNumber(initialValue)
+        );
     }
 
-    private performOperation(operation: string, accum: number, num2: number): number {
+    private performOperationFromStep = (acc: number, step: string) => {
+        const operation = this.getOperation(step);
+        const num = this.getOperationValue(step);
+
+        return this.performOperation(operation, acc, num);
+    }
+
+    private getOperation(step: string) {
+        const operation = step.substring(0, 1);
+        this.validateOperation(operation);
+        return operation;
+    }
+
+    private getOperationValue(step: string) {
+        return this.toNumber(step.substring(1));
+    }
+
+    private toNumber(value: string) {
+        const num = parseInt(value);
+        this.validateNumber(num);
+        return num;
+    }
+
+    private performOperation(operation: string, num1: number, num2: number): number {
         if (operation === "+") {
-            return accum + num2;
+            return num1 + num2;
         }
         if (operation === "-") {
-            return accum - num2;
+            return num1 - num2;
         }
         if (operation === "*") {
-            return accum * num2;
+            return num1 * num2;
         }
         if (operation === "/") {
             if (num2 === 0) {
                 throw new Error("invalid division by 0");
             }
-            return accum / num2;
+            return num1 / num2;
         }
 
-        return accum;
+        return num1;
     }
 
     private validateNumber(num: number) {
