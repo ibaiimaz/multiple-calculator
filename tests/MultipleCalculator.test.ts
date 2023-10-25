@@ -68,4 +68,12 @@ describe("MultipleCalculator", () => {
 
         expect(result).toEqual(9);
     });
+
+    it("should support negative numbers in all operations", () => {
+        const multipleCalculator = new MultipleCalculator();
+
+        const result = multipleCalculator.calculate(["-10", "+-2", "--3", "*-2", "/-2"]);
+
+        expect(result).toEqual(-9);
+    });
 });
