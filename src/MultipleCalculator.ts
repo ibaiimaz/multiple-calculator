@@ -1,19 +1,32 @@
 const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
 
 export class MultipleCalculator {
+    private nonNegative: boolean;
+
+    constructor ({ nonNegative } = { nonNegative: false }) {
+        this.nonNegative = nonNegative;
+    }
 
     calculate(operations: string[]) {
         const [initialValue, ...steps] = operations;
 
+        const initialNum = this.toNumber(initialValue);
+        if (this.nonNegative && initialNum < 0) {
+            throw new Error("negative values not supported");
+        }
+
         return steps.reduce(
             this.performOperationFromStep,
-            this.toNumber(initialValue)
+            initialNum
         );
     }
 
     private performOperationFromStep = (acc: number, step: string) => {
         const operation = this.getOperation(step);
         const num = this.getOperationValue(step);
+        if (this.nonNegative && num < 0) {
+            throw new Error("negative values not supported");
+        }
 
         return this.performOperation(operation, acc, num);
     }

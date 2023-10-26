@@ -76,4 +76,21 @@ describe("MultipleCalculator", () => {
 
         expect(result).toEqual(-9);
     });
+
+    describe("non negative calculator", () => {
+        it("should not allow negative numbers in initial value", () => {
+            const multipleCalculator = new MultipleCalculator({ nonNegative: true });
+    
+            expect(() => multipleCalculator.calculate(["-10", "+2"])).toThrow("negative values not supported");
+        });
+
+        it("should not allow negative numbers any operation", () => {
+            const multipleCalculator = new MultipleCalculator({ nonNegative: true });
+    
+            expect(() => multipleCalculator.calculate(["10", "+-2"])).toThrow("negative values not supported");
+            expect(() => multipleCalculator.calculate(["10", "--2"])).toThrow("negative values not supported");
+            expect(() => multipleCalculator.calculate(["10", "*-2"])).toThrow("negative values not supported");
+            expect(() => multipleCalculator.calculate(["10", "/-2"])).toThrow("negative values not supported");
+        });
+    });
 });
