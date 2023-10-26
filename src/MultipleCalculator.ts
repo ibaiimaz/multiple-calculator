@@ -9,11 +9,7 @@ export class MultipleCalculator {
 
     calculate(operations: string[]) {
         const [initialValue, ...steps] = operations;
-
         const initialNum = this.toNumber(initialValue);
-        if (this.nonNegative && initialNum < 0) {
-            throw new Error("negative values not supported");
-        }
 
         return steps.reduce(
             this.performOperationFromStep,
@@ -24,9 +20,6 @@ export class MultipleCalculator {
     private performOperationFromStep = (acc: number, step: string) => {
         const operation = this.getOperation(step);
         const num = this.getOperationValue(step);
-        if (this.nonNegative && num < 0) {
-            throw new Error("negative values not supported");
-        }
 
         return this.performOperation(operation, acc, num);
     }
@@ -48,6 +41,10 @@ export class MultipleCalculator {
     }
 
     private performOperation(operation: string, num1: number, num2: number): number {
+        if (this.nonNegative && (num1 < 0 || num2 < 0)) {
+            throw new Error("negative values not supported");
+        }
+
         if (operation === "+") {
             return num1 + num2;
         }
