@@ -92,5 +92,11 @@ describe("MultipleCalculator", () => {
             expect(() => multipleCalculator.calculate(["10", "*-2"])).toThrow("negative values not supported");
             expect(() => multipleCalculator.calculate(["10", "/-2"])).toThrow("negative values not supported");
         });
+
+        it("should not allow negative result on subtract", () => {
+            const multipleCalculator = new MultipleCalculator({ nonNegative: true });
+    
+            expect(() => multipleCalculator.calculate(["2", "-5"])).toThrow("negative values not supported");
+        });
     });
 });

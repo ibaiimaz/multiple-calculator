@@ -52,7 +52,11 @@ export class MultipleCalculator {
             return num1 + num2;
         }
         if (operation === "-") {
-            return num1 - num2;
+            const result = num1 - num2;
+            if (this.nonNegative && result < 0) {
+                throw new Error("negative values not supported");
+            }
+            return result;
         }
         if (operation === "*") {
             return num1 * num2;
