@@ -21,6 +21,9 @@ export class MultipleCalculator {
         const operation = this.getOperation(step);
         const num = this.getOperationValue(step);
 
+        if (this.nonNegative) {
+            return this.performNonNegativeOperation(operation, acc, num);
+        }
         return this.performOperation(operation, acc, num);
     }
 
@@ -41,6 +44,26 @@ export class MultipleCalculator {
     }
 
     private performOperation(operation: string, num1: number, num2: number): number {
+        if (operation === "+") {
+            return num1 + num2;
+        }
+        if (operation === "-") {
+            return num1 - num2;
+        }
+        if (operation === "*") {
+            return num1 * num2;
+        }
+        if (operation === "/") {
+            if (num2 === 0) {
+                throw new Error("invalid division by 0");
+            }
+            return num1 / num2;
+        }
+
+        return num1;
+    }
+
+    private performNonNegativeOperation(operation: string, num1: number, num2: number): number {
         if (this.nonNegative && (num1 < 0 || num2 < 0)) {
             throw new Error("negative values not supported");
         }
