@@ -1,3 +1,5 @@
+import { RegularCalculator } from "./RegularCalculator";
+
 const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
 
 interface PerformInterface {
@@ -5,9 +7,11 @@ interface PerformInterface {
   }
 
 export class MultipleCalculator {
-    private performOperation: PerformInterface
+    private performOperation: PerformInterface;
+    private regularCalculator: RegularCalculator;
 
     constructor ({ nonNegative } = { nonNegative: false }) {
+        this.regularCalculator = new RegularCalculator();
         this.performOperation = nonNegative ? this.performNonNegativeOperation : this.performRegularOperation;
     }
 
@@ -46,21 +50,17 @@ export class MultipleCalculator {
 
     private performRegularOperation(operation: string, num1: number, num2: number): number {
         if (operation === "+") {
-            return num1 + num2;
+            return this.regularCalculator.sum(num1, num2);
         }
         if (operation === "-") {
-            return num1 - num2;
+            return this.regularCalculator.subtract(num1, num2);
         }
         if (operation === "*") {
-            return num1 * num2;
+            return this.regularCalculator.multiply(num1, num2);
         }
         if (operation === "/") {
-            if (num2 === 0) {
-                throw new Error("invalid division by 0");
-            }
-            return num1 / num2;
+            return this.regularCalculator.divide(num1, num2);
         }
-
         return num1;
     }
 
