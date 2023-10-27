@@ -65,31 +65,41 @@ export class MultipleCalculator {
     }
 
     private performNonNegativeOperation(operation: string, num1: number, num2: number): number {
-        if (num1 < 0 || num2 < 0) {
-            throw new Error("negative values not supported");
-        }
-
         if (operation === "+") {
+            this.validateNonNegativeNumbers(num1, num2);
+
             return num1 + num2;
         }
         if (operation === "-") {
+            this.validateNonNegativeNumbers(num1, num2);
             const result = num1 - num2;
             if (result < 0) {
                 throw new Error("negative values not supported");
             }
+
             return result;
         }
         if (operation === "*") {
+            this.validateNonNegativeNumbers(num1, num2);
+
             return num1 * num2;
         }
         if (operation === "/") {
+            this.validateNonNegativeNumbers(num1, num2);
             if (num2 === 0) {
                 throw new Error("invalid division by 0");
             }
+
             return num1 / num2;
         }
 
         return num1;
+    }
+
+    private validateNonNegativeNumbers(num1: number, num2: number) {
+        if (num1 < 0 || num2 < 0) {
+            throw new Error("negative values not supported");
+        }
     }
 
     private validateNumber(num: number) {
