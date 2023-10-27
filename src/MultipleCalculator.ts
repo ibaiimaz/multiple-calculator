@@ -5,11 +5,9 @@ interface PerformInterface {
   }
 
 export class MultipleCalculator {
-    private nonNegative: boolean;
     private performOperation: PerformInterface
 
     constructor ({ nonNegative } = { nonNegative: false }) {
-        this.nonNegative = nonNegative;
         this.performOperation = nonNegative ? this.performNonNegativeOperation : this.performRegularOperation;
     }
 
@@ -67,7 +65,7 @@ export class MultipleCalculator {
     }
 
     private performNonNegativeOperation(operation: string, num1: number, num2: number): number {
-        if (this.nonNegative && (num1 < 0 || num2 < 0)) {
+        if (num1 < 0 || num2 < 0) {
             throw new Error("negative values not supported");
         }
 
@@ -76,7 +74,7 @@ export class MultipleCalculator {
         }
         if (operation === "-") {
             const result = num1 - num2;
-            if (this.nonNegative && result < 0) {
+            if (result < 0) {
                 throw new Error("negative values not supported");
             }
             return result;
