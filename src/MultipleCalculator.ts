@@ -1,10 +1,16 @@
 const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
 
+interface PerformInterface {
+    (operation: string, num1: number, num2: number): number
+  }
+
 export class MultipleCalculator {
     private nonNegative: boolean;
+    private performOperation: PerformInterface
 
     constructor ({ nonNegative } = { nonNegative: false }) {
         this.nonNegative = nonNegative;
+        this.performOperation = nonNegative ? this.performNonNegativeOperation : this.performRegularOperation;
     }
 
     calculate(operations: string[]) {
@@ -21,9 +27,6 @@ export class MultipleCalculator {
         const operation = this.getOperation(step);
         const num = this.getOperationValue(step);
 
-        if (this.nonNegative) {
-            return this.performNonNegativeOperation(operation, acc, num);
-        }
         return this.performOperation(operation, acc, num);
     }
 
@@ -43,7 +46,7 @@ export class MultipleCalculator {
         return num;
     }
 
-    private performOperation(operation: string, num1: number, num2: number): number {
+    private performRegularOperation(operation: string, num1: number, num2: number): number {
         if (operation === "+") {
             return num1 + num2;
         }
