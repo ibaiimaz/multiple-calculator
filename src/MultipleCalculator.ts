@@ -1,6 +1,3 @@
-import { NonNegativeCalculator } from "./NonNegativeCalculator";
-import { RegularCalculator } from "./RegularCalculator";
-
 const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
 
 interface Calculator {
@@ -13,8 +10,8 @@ interface Calculator {
 export class MultipleCalculator {
     private calculator: Calculator;
 
-    constructor ({ nonNegative } = { nonNegative: false }) {
-        this.calculator = nonNegative ? new NonNegativeCalculator() : new RegularCalculator();
+    constructor (calculator: Calculator) {
+        this.calculator = calculator;
     }
 
     calculate(operations: string[]) {
