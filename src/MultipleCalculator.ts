@@ -1,3 +1,4 @@
+import { NonNegativeCalculator } from "./NonNegativeCalculator";
 import { RegularCalculator } from "./RegularCalculator";
 
 const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
@@ -9,9 +10,11 @@ interface PerformInterface {
 export class MultipleCalculator {
     private performOperation: PerformInterface;
     private regularCalculator: RegularCalculator;
+    private nonNegativeCalculator: NonNegativeCalculator;
 
     constructor ({ nonNegative } = { nonNegative: false }) {
         this.regularCalculator = new RegularCalculator();
+        this.nonNegativeCalculator = new NonNegativeCalculator();
         this.performOperation = nonNegative ? this.performNonNegativeOperation : this.performRegularOperation;
     }
 
@@ -66,31 +69,16 @@ export class MultipleCalculator {
 
     private performNonNegativeOperation(operation: string, num1: number, num2: number): number {
         if (operation === "+") {
-            this.validateNonNegativeNumbers(num1, num2);
-
-            return num1 + num2;
+            this.nonNegativeCalculator.sum(num1, num2);
         }
         if (operation === "-") {
-            this.validateNonNegativeNumbers(num1, num2);
-            const result = num1 - num2;
-            if (result < 0) {
-                throw new Error("negative values not supported");
-            }
-
-            return result;
+            this.nonNegativeCalculator.subtract(num1, num2);
         }
         if (operation === "*") {
-            this.validateNonNegativeNumbers(num1, num2);
-
-            return num1 * num2;
+            this.nonNegativeCalculator.multiply(num1, num2);
         }
         if (operation === "/") {
-            this.validateNonNegativeNumbers(num1, num2);
-            if (num2 === 0) {
-                throw new Error("invalid division by 0");
-            }
-
-            return num1 / num2;
+            this.nonNegativeCalculator.divide(num1, num2);
         }
 
         return num1;
