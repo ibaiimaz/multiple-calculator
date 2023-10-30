@@ -3,19 +3,18 @@ import { RegularCalculator } from "./RegularCalculator";
 
 const SUPPORTED_OPERATIONS = ["+", "-", "*", "/"];
 
-interface PerformInterface {
-    (operation: string, num1: number, num2: number): number
-  }
+interface Calculator {
+    sum (num1: number, num2: number): number,
+    subtract (num1: number, num2: number): number,
+    multiply (num1: number, num2: number): number,
+    divide (num1: number, num2: number): number,
+}
 
 export class MultipleCalculator {
-    private performOperation: PerformInterface;
-    private regularCalculator: RegularCalculator;
-    private nonNegativeCalculator: NonNegativeCalculator;
+    private calculator: Calculator;
 
     constructor ({ nonNegative } = { nonNegative: false }) {
-        this.regularCalculator = new RegularCalculator();
-        this.nonNegativeCalculator = new NonNegativeCalculator();
-        this.performOperation = nonNegative ? this.performNonNegativeOperation : this.performRegularOperation;
+        this.calculator = nonNegative ? new NonNegativeCalculator() : new RegularCalculator();
     }
 
     calculate(operations: string[]) {
@@ -51,43 +50,20 @@ export class MultipleCalculator {
         return num;
     }
 
-    private performRegularOperation(operation: string, num1: number, num2: number): number {
+    private performOperation(operation: string, num1: number, num2: number): number {
         if (operation === "+") {
-            return this.regularCalculator.sum(num1, num2);
+            return this.calculator.sum(num1, num2);
         }
         if (operation === "-") {
-            return this.regularCalculator.subtract(num1, num2);
+            return this.calculator.subtract(num1, num2);
         }
         if (operation === "*") {
-            return this.regularCalculator.multiply(num1, num2);
+            return this.calculator.multiply(num1, num2);
         }
         if (operation === "/") {
-            return this.regularCalculator.divide(num1, num2);
+            return this.calculator.divide(num1, num2);
         }
         return num1;
-    }
-
-    private performNonNegativeOperation(operation: string, num1: number, num2: number): number {
-        if (operation === "+") {
-            this.nonNegativeCalculator.sum(num1, num2);
-        }
-        if (operation === "-") {
-            this.nonNegativeCalculator.subtract(num1, num2);
-        }
-        if (operation === "*") {
-            this.nonNegativeCalculator.multiply(num1, num2);
-        }
-        if (operation === "/") {
-            this.nonNegativeCalculator.divide(num1, num2);
-        }
-
-        return num1;
-    }
-
-    private validateNonNegativeNumbers(num1: number, num2: number) {
-        if (num1 < 0 || num2 < 0) {
-            throw new Error("negative values not supported");
-        }
     }
 
     private validateNumber(num: number) {
