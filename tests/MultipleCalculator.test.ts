@@ -1,104 +1,77 @@
-import { MultipleCalculator as MultipleCalculator } from "../src/MultipleCalculator";
-import { NonNegativeCalculator } from "../src/NonNegativeCalculator";
-import { RegularCalculator } from "../src/RegularCalculator";
+import { MultipleCalculator } from "../src/MultipleCalculator";
+
+const mockCalculator = {
+    sum: jest.fn().mockReturnValue(1),
+    subtract: jest.fn().mockReturnValue(1),
+    multiply: jest.fn().mockReturnValue(1),
+    divide: jest.fn().mockReturnValue(1),
+}
 
 describe("MultipleCalculator", () => {
-    it.each([
-        {a: "4", b: "+2", expected: 6},
-        {a: "3", b: "+5", expected: 8}
-    ])('should sum $a and $b', ({a, b, expected}) => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+    it("should use 'sum' from calculator when sum operator", () => {
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
 
-        const result = multipleCalculator.calculate([a, b]);
-
-        expect(result).toEqual(expected);
+        multipleCalculator.calculate(["4", "+2"]);
+        
+        expect(mockCalculator.sum).toHaveBeenCalledTimes(1);
+        expect(mockCalculator.sum).toHaveBeenCalledWith(4, 2);
     });
 
-    it("should subtract the given 2 numbers", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+    it("should use 'subtract' from calculator when subtract operator", () => {
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
 
-        const result = multipleCalculator.calculate(["10", "-3"]);
-
-        expect(result).toEqual(7);
+        multipleCalculator.calculate(["10", "-3"]);
+        
+        expect(mockCalculator.subtract).toHaveBeenCalledTimes(1);
+        expect(mockCalculator.subtract).toHaveBeenCalledWith(10, 3);
     });
 
-    it("should multiply the given 2 numbers", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+    it("should use 'multiply' from calculator when multiply operator", () => {
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
 
-        const result = multipleCalculator.calculate(["3", "*3"]);
-
-        expect(result).toEqual(9);
+        multipleCalculator.calculate(["3", "*3"]);
+        
+        expect(mockCalculator.multiply).toHaveBeenCalledTimes(1);
+        expect(mockCalculator.multiply).toHaveBeenCalledWith(3, 3);
     });
 
-    it("should divide the given 2 numbers", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+    it("should use 'divide' from calculator when divide operator", () => {
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
 
-        const result = multipleCalculator.calculate(["12", "/4"]);
-
-        expect(result).toEqual(3);
+        multipleCalculator.calculate(["12", "/4"]);
+        
+        expect(mockCalculator.divide).toHaveBeenCalledTimes(1);
+        expect(mockCalculator.divide).toHaveBeenCalledWith(12, 4);
     });
 
     it("should throw an error if the operation is not supported", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
         expect(() => multipleCalculator.calculate(["12", "%4"])).toThrow("unsuported operation")
     });
 
     it("should throw an error if the operation is not provided", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
         expect(() => multipleCalculator.calculate(["12", "4"])).toThrow("operation not provided")
     });
 
     it("should throw an error if first number not provided", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
         expect(() => multipleCalculator.calculate(["", "+4"])).toThrow("number not provided")
     });
 
     it("should throw an error if second number not provided", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
         expect(() => multipleCalculator.calculate(["3", "+"])).toThrow("number not provided")
     });
 
-    it("should throw an error if dividing by zero", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
-        expect(() => multipleCalculator.calculate(["3", "/0"])).toThrow("invalid division by 0")
-    });
-
     it("should accept multiple operations", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
+        const multipleCalculator = new MultipleCalculator(mockCalculator);
 
-        const result = multipleCalculator.calculate(["10", "+2", "-3"]);
-
-        expect(result).toEqual(9);
-    });
-
-    it("should support negative numbers in all operations", () => {
-        const multipleCalculator = new MultipleCalculator(new RegularCalculator());
-
-        const result = multipleCalculator.calculate(["-10", "+-2", "--3", "*-2", "/-2"]);
-
-        expect(result).toEqual(-9);
-    });
-
-    describe("non negative calculator", () => {
-        it("should not allow negative numbers in initial value", () => {
-            const multipleCalculator = new MultipleCalculator(new NonNegativeCalculator());
-    
-            expect(() => multipleCalculator.calculate(["-10", "+2"])).toThrow("negative values not supported");
-        });
-
-        it("should not allow negative numbers any operation", () => {
-            const multipleCalculator = new MultipleCalculator(new NonNegativeCalculator());
-    
-            expect(() => multipleCalculator.calculate(["10", "+-2"])).toThrow("negative values not supported");
-            expect(() => multipleCalculator.calculate(["10", "--2"])).toThrow("negative values not supported");
-            expect(() => multipleCalculator.calculate(["10", "*-2"])).toThrow("negative values not supported");
-            expect(() => multipleCalculator.calculate(["10", "/-2"])).toThrow("negative values not supported");
-        });
-
-        it("should not allow negative result on subtract", () => {
-            const multipleCalculator = new MultipleCalculator(new NonNegativeCalculator());
-    
-            expect(() => multipleCalculator.calculate(["2", "-5"])).toThrow("negative values not supported");
-        });
+        multipleCalculator.calculate(["10", "+2", "-3", "*3", "/9"]);
+        
+        expect(mockCalculator.sum).toHaveBeenCalledWith(10, 2);
+        expect(mockCalculator.subtract).toHaveBeenCalledWith(expect.any(Number), 3);
+        expect(mockCalculator.multiply).toHaveBeenCalledWith(expect.any(Number), 3);
+        expect(mockCalculator.divide).toHaveBeenCalledWith(expect.any(Number), 9);
     });
 });
